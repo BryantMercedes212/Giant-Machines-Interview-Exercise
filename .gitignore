@@ -5,11 +5,14 @@
 /frontend/.pnp
 .pnp.js
 
+/frontend/package-lock.json
+
 # testing
 /frontend/coverage
 
 # production
 /frontend/build
+/frontend/.env
 
 # misc
 .DS_Store
@@ -26,6 +29,7 @@ yarn-error.log*
 
 # dependencies
 node_modules
+package-lock.json
 
 # misc
 .DS_Store
