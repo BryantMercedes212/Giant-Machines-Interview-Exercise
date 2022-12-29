@@ -1,0 +1,66 @@
+.allEntriesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trackedAmounts {
+  margin-top: 100px;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.trackedAmountsHeaders {
+  color: rgb(102, 102, 102);
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.trackedAmount {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.tableHeaders {
+  border: 1px solid black;
+  margin-top: 100px;
+  width: 90%;
+  display: flex;
+  height: 30px;
+}
+
+.header {
+  width: 100%;
+  border-right: 3px solid black;
+  background: linear-gradient(white, rgb(204, 204, 204));
+}
+.header:last-child {
+  border-right: none;
+}
+.header:first-child {
+  background: white;
+}
+
+.headerName {
+  display: flex;
+  font-size: 18px;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+.left {
+  width: 100%;
+  text-align: start;
+  margin-left: 13px;
+}
+.right {
+  text-align: end;
+  margin-right: 13px;
+}
+
+.allEntries {
+  width: 90%;
+}

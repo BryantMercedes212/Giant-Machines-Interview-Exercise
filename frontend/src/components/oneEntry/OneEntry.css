@@ -1,0 +1,21 @@
+.entry {
+  border-bottom: 1px solid black;
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  height: 45px;
+}
+
+.entryInfo {
+  width: 100%;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.entryInfo div {
+  margin-bottom: 200000px;
+}
+.blue {
+  color: rgb(51, 102, 152);
+}
