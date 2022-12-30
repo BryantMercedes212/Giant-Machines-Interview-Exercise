@@ -8,7 +8,6 @@ function OneEntry({
   billableAmount,
   setBillableAmount,
 }) {
-  console.log(entry);
   const { project, client, hours, billable, billablerate } = entry;
   return (
     <div className="entry">
