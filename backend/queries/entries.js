@@ -41,6 +41,39 @@ const getRowCount = async () => {
   }
 };
 
+const createOne = async (entry) => {
+  try {
+    let {
+      date,
+      client,
+      project,
+      projectCode,
+      hours,
+      billable,
+      firstName,
+      lastName,
+      billableRate,
+    } = entry;
+    const newOne = await db.one(
+      "INSERT INTO entries (date, client, project, projectCode, hours, billable, firstName, lastName ,billableRate) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING * ",
+      [
+        date,
+        client,
+        project,
+        projectCode,
+        Number(hours),
+        billable,
+        firstName,
+        lastName,
+        Number(billableRate),
+      ]
+    );
+    return newOne;
+  } catch (error) {
+    return error;
+  }
+};
+
 const getAllClients = async () => {
   try {
     const allClients = await db.any("SELECT DISTINCT client FROM entries");
@@ -102,6 +135,7 @@ module.exports = {
   getHours,
   getBillableAmount,
   getRowCount,
+  createOne,
   getAllClients,
   getAllEntriesFromClient,
   getClientHours,

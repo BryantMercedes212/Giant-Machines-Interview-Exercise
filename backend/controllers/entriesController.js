@@ -5,6 +5,7 @@ const {
   getHours,
   getBillableAmount,
   getRowCount,
+  createOne,
   getAllClients,
   getAllEntriesFromClient,
   getClientHours,
@@ -34,6 +35,13 @@ entries.get("/", async (request, response) => {
   response
     .status(200)
     .json({ allEntries, hours, billableAmount, rowCount, allClients });
+});
+
+entries.post("/", async (request, response) => {
+  console.log(request.body);
+  const newEntry = await createOne(request.body.entry);
+  console.log(newEntry);
+  response.status(200).json(newEntry);
 });
 
 entries.post("/client", async (request, response) => {

@@ -80,3 +80,71 @@
   display: flex;
   justify-content: space-between;
 }
+
+.newEntryContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.addNewEntryTitle {
+  margin-top: 100px;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.allInputs {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 80%;
+  margin-left: 250px;
+}
+
+.buttons {
+  margin-top: 90px;
+  width: 65%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.billableContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 30px;
+  margin-right: 150px;
+  width: 10%;
+  height: 60px;
+}
+
+.billableTitle {
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+.options {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  display: flex;
+}
+
+.option {
+  font-size: 20px;
+}
+.date {
+  margin: 30px;
+  margin-right: 177px;
+  background-color: aqua;
+  height: 0px;
+  font-size: 24px;
+}
+
+.date input {
+  margin-top: 40px;
+  font-size: 18px;
+}

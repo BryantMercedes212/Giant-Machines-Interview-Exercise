@@ -14,6 +14,6 @@ CREATE TABLE entries (
     hours numeric(8,2),
    billable TEXT NOT NULL,
    firstName TEXT NOT NULL,
-   lasttName TEXT NOT NULL,
+   lastName TEXT NOT NULL,
    billableRate numeric(8)
 );
