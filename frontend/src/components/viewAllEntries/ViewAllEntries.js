@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./ViewAllEntries.css";
 import OneEntry from "../oneEntry/OneEntry";
+import input from "../input/input";
 import {
   FormControl,
   InputLabel,
   Select,
   MenuItem,
   Pagination,
+  Button,
+  Checkbox,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +26,20 @@ function ViewAllEntries() {
   const [allClients, setAllClients] = useState([]);
   const selectsForAllClients = [];
   const [selectedClient, setSelectedClient] = useState("");
+  const [numberError, setNumberError] = useState(false);
+  const [billableRateError, setBillableRateError] = useState(false);
+  const [newEntry, setNewEntry] = useState({
+    date: "",
+    client: "",
+    project: "",
+    projectCode: "",
+    hours: "",
+    billable: "",
+    firstName: "",
+    lastName: "",
+    billableRate: "",
+  });
+  const [addNew, setAddNew] = useState(false);
 
   const fetchEntries = async () => {
     try {
@@ -58,6 +75,48 @@ function ViewAllEntries() {
     }
   };
 
+  const createNewEntry = async () => {
+    const {
+      date,
+      client,
+      project,
+      projectCode,
+      hours,
+      billable,
+      firstName,
+      lastName,
+    } = newEntry;
+    if (
+      client === "" ||
+      project === "" ||
+      projectCode === "" ||
+      hours === "" ||
+      billable === "" ||
+      firstName === "" ||
+      lastName === ""
+    ) {
+      alert(
+        "All required fields must filled in before trying to create a new Entry "
+      );
+    } else {
+      axios.post(`${URL}/entries`, { entry: newEntry }).then(() => {
+        setNewEntry({
+          date: "",
+          client: "",
+          project: "",
+          projectCode: "",
+          hours: "",
+          billable: "",
+          firstName: "",
+          lastName: "",
+          billableRate: "",
+        });
+
+        setAddNew(false);
+      });
+    }
+  };
+
   for (let client of allClients) {
     selectsForAllClients.push(
       <MenuItem value={client.client}>{client.client}</MenuItem>
@@ -74,7 +133,7 @@ function ViewAllEntries() {
     } else {
       fetchEntries();
     }
-  }, [end, selectedClient]);
+  }, [end, selectedClient, addNew]);
 
   const handlePageChange = (event, value) => {
     if (value === 1) {
@@ -86,7 +145,138 @@ function ViewAllEntries() {
     }
   };
 
-  return (
+  const handleInputChange = (evt) => {
+    const value = evt.target.value;
+    const name = evt.target.name;
+    if (name === "hours" && !/^[1-9][\.\d]*(,\d+)?$/.test(value)) {
+      if (newEntry.hours.length === 1) {
+        setNewEntry({
+          ...newEntry,
+          [name]: "",
+        });
+        setNumberError(false);
+      } else {
+        setNumberError(true);
+      }
+    } else if (
+      name === "billableRate" &&
+      !/^[1-9][\.\d]*(,\d+)?$/.test(value)
+    ) {
+      if (newEntry.billableRate.length === 1) {
+        setNewEntry({
+          ...newEntry,
+          [name]: "",
+        });
+        setBillableRateError(false);
+      } else {
+        setBillableRateError(true);
+      }
+    } else {
+      if (name === "hours" && numberError) {
+        setNumberError(false);
+      }
+      if (name === "billableRate" && billableRateError) {
+        setBillableRateError(false);
+      }
+      setNewEntry({
+        ...newEntry,
+        [name]: value,
+      });
+    }
+  };
+  console.log(newEntry.date);
+
+  return addNew ? (
+    <div className="newEntryContainer">
+      <div className="addNewEntryTitle"> Adding a New Entry</div>
+      <div className="allInputs">
+        <div className="date">
+          <input type="date" name="date" onClick={handleInputChange}></input> *
+        </div>
+
+        {input("Client", "client", newEntry.client, handleInputChange)}
+        {input("Project", "project", newEntry.project, handleInputChange)}
+        {input(
+          "Project Code",
+          "projectCode",
+          newEntry.projectCode,
+          handleInputChange
+        )}
+        {input(
+          "Hours",
+          "hours",
+          newEntry.hours,
+          handleInputChange,
+          numberError
+        )}
+        <div className="billableContainer">
+          <div className="billableTitle"> Billable? *</div>
+          <div className="options">
+            <div className="option">
+              <input
+                type="radio"
+                class="checkbox-round"
+                name="billable"
+                onChange={handleInputChange}
+                value={"Yes"}
+              />
+              Yes
+            </div>
+            <div className="option">
+              <input
+                type="radio"
+                class="checkbox-round"
+                name="billable"
+                onChange={handleInputChange}
+                value={"No"}
+              />
+              No
+            </div>
+          </div>
+        </div>
+        {input(
+          "First Name",
+          "firstName",
+          newEntry.firstName,
+          handleInputChange
+        )}
+        {input("Last Name", "lastName", newEntry.lastName, handleInputChange)}
+        {newEntry.billable === "Yes" &&
+          input(
+            "Billable Rate",
+            "billableRate",
+            newEntry.billableRate,
+            handleInputChange,
+            billableRateError
+          )}
+      </div>
+
+      <div className="buttons">
+        {" "}
+        <Button
+          sx={{
+            height: 50,
+          }}
+          variant="contained"
+          size="large"
+          color="error"
+          onClick={() => setAddNew(!addNew)}
+        >
+          Exit Add A New Entry
+        </Button>{" "}
+        <Button
+          sx={{
+            height: 50,
+          }}
+          variant="contained"
+          size="large"
+          onClick={createNewEntry}
+        >
+          Add A New Entry
+        </Button>
+      </div>
+    </div>
+  ) : (
     <div className="allEntriesContainer">
       <div className="trackedAmounts">
         <div>
@@ -102,9 +292,19 @@ function ViewAllEntries() {
           </div>
         </div>
       </div>
-
       <div className="tableHeadersContainer">
         <div className="adjustments">
+          {" "}
+          <Button
+            sx={{
+              height: 50,
+            }}
+            variant="contained"
+            size="large"
+            onClick={() => setAddNew(!addNew)}
+          >
+            Add A New Entry
+          </Button>
           <label>
             <FormControl sx={{ minWidth: 120 }}>
               <InputLabel id="demo-simple-select-required-label">
