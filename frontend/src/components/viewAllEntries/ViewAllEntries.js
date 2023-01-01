@@ -26,7 +26,7 @@ function ViewAllEntries() {
   const [allClients, setAllClients] = useState([]);
   const selectsForAllClients = [];
   const [selectedClient, setSelectedClient] = useState("");
-  const [numberError, setNumberError] = useState(false);
+  const [hourError, setHourError] = useState(false);
   const [billableRateError, setBillableRateError] = useState(false);
   const [newEntry, setNewEntry] = useState({
     date: "",
@@ -41,6 +41,7 @@ function ViewAllEntries() {
   });
   const [addNew, setAddNew] = useState(false);
 
+  //initial fetch to get all of the entries and information to run the project
   const fetchEntries = async () => {
     try {
       const res = await axios.get(`${URL}/entries?start=${start}&end=${end}`);
@@ -56,6 +57,9 @@ function ViewAllEntries() {
     }
   };
 
+  // if a filter is picked fetch to get all
+  // of the entries and information to run the project
+
   const fetchClientEntries = async () => {
     try {
       axios
@@ -68,6 +72,7 @@ function ViewAllEntries() {
           setHoursTracked(res.data.clientHours.sum);
           setBillableAmount(res.data.clientBillableAmount.sum);
           setLastPage(res.data.clientRowCount.count);
+          setAllClients(res.data.allClients);
         });
     } catch (error) {
       console.log(error);
@@ -75,6 +80,7 @@ function ViewAllEntries() {
     }
   };
 
+  //Post request to create a new entry
   const createNewEntry = async () => {
     const {
       date,
@@ -86,6 +92,8 @@ function ViewAllEntries() {
       firstName,
       lastName,
     } = newEntry;
+
+    //making sure that all the information thats needed to create a new entry is filled in
     if (
       client === "" ||
       project === "" ||
@@ -123,7 +131,7 @@ function ViewAllEntries() {
     );
   }
 
-  const handleChange = (evt) => {
+  const handleFilterChange = (evt) => {
     setSelectedClient(evt.target.value);
   };
 
@@ -148,17 +156,19 @@ function ViewAllEntries() {
   const handleInputChange = (evt) => {
     const value = evt.target.value;
     const name = evt.target.name;
+    //making sure that only numbers are allowed in the hours input box
     if (name === "hours" && !/^[1-9][\.\d]*(,\d+)?$/.test(value)) {
       if (newEntry.hours.length === 1) {
         setNewEntry({
           ...newEntry,
           [name]: "",
         });
-        setNumberError(false);
+        setHourError(false);
       } else {
-        setNumberError(true);
+        setHourError(true);
       }
     } else if (
+      //making sure that only numbers are allowed in the billaBleRate input box
       name === "billableRate" &&
       !/^[1-9][\.\d]*(,\d+)?$/.test(value)
     ) {
@@ -172,9 +182,11 @@ function ViewAllEntries() {
         setBillableRateError(true);
       }
     } else {
-      if (name === "hours" && numberError) {
-        setNumberError(false);
+      //Input for hours is actually number removing my error
+      if (name === "hours" && hourError) {
+        setHourError(false);
       }
+      //Input for billableRate is actually number removing my error
       if (name === "billableRate" && billableRateError) {
         setBillableRateError(false);
       }
@@ -184,7 +196,6 @@ function ViewAllEntries() {
       });
     }
   };
-  console.log(newEntry.date);
 
   return addNew ? (
     <div className="newEntryContainer">
@@ -202,13 +213,7 @@ function ViewAllEntries() {
           newEntry.projectCode,
           handleInputChange
         )}
-        {input(
-          "Hours",
-          "hours",
-          newEntry.hours,
-          handleInputChange,
-          numberError
-        )}
+        {input("Hours", "hours", newEntry.hours, handleInputChange, hourError)}
         <div className="billableContainer">
           <div className="billableTitle"> Billable? *</div>
           <div className="options">
@@ -316,7 +321,7 @@ function ViewAllEntries() {
                 label="State j"
                 name="state"
                 value={selectedClient}
-                onChange={handleChange}
+                onChange={handleFilterChange}
               >
                 <MenuItem value="">
                   <em>None</em>

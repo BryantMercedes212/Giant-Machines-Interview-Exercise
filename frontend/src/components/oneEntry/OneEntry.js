@@ -8,7 +8,7 @@ function OneEntry({
   billableAmount,
   setBillableAmount,
 }) {
-  const { project, client, hours, billable, billablerate } = entry;
+  const { client, hours, billable, billablerate } = entry;
   return (
     <div className="entry">
       <div className="entryInfo">
@@ -29,7 +29,7 @@ function OneEntry({
         <div className=" right">
           {" "}
           {billable === "Yes"
-            ? `$${(Number(hours) * Number(billablerate)).toFixed(2)}`
+            ? `$${(Number(hours) * Number(billablerate)).toLocaleString()}`
             : "-"}
         </div>
       </div>

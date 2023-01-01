@@ -25,11 +25,17 @@ const entries = express.Router({ mergeParams: true });
 // });
 
 entries.get("/", async (request, response) => {
+  //get the count of the rows from the DataBse
   const rowCount = await getRowCount();
+  // setting default behavior for my queries
   let { start = 0, end = rowCount.count } = request.query;
+  //get the total amount of hours in the DataBase
   const hours = await getHours();
+  //get the total amount of billable hours in the DataBase
   const billableAmount = await getBillableAmount();
+  //get 25 entries from start and end if given, if not get them all in the DataBase
   const allEntries = await getAllEntries(start, end);
+  //get all different clients from the Database
   const allClients = await getAllClients();
 
   response
@@ -37,29 +43,40 @@ entries.get("/", async (request, response) => {
     .json({ allEntries, hours, billableAmount, rowCount, allClients });
 });
 
+//Post request to create a new entry
 entries.post("/", async (request, response) => {
-  console.log(request.body);
   const newEntry = await createOne(request.body.entry);
-  console.log(newEntry);
   response.status(200).json(newEntry);
 });
 
+//Get request for specific clients information
 entries.post("/client", async (request, response) => {
+  //get the client count of the rows from the DataBse
   const clientRowCount = await getClientRowCount(request.body.client);
-  let { start = 0, end = clientRowCount.count } = request.query;
 
+  let { start = 0, end = clientRowCount.count } = request.query;
+  //get the total amount of hours for the client in the DataBase
   const clientHours = await getClientHours(request.body.client);
+  //get the total amount of billable hours for that client in the DataBase
   const clientBillableAmount = await getClientBillableAmount(
     request.body.client
   );
+  //get all the entries from that clients from the Database
   const allEntries = await getAllEntriesFromClient(
     request.body.client,
     start,
     end
   );
-  response
-    .status(200)
-    .json({ allEntries, clientHours, clientBillableAmount, clientRowCount });
+  //get all different clients from the Database
+  const allClients = await getAllClients();
+
+  response.status(200).json({
+    allEntries,
+    clientHours,
+    clientBillableAmount,
+    clientRowCount,
+    allClients,
+  });
 });
 
 //Export

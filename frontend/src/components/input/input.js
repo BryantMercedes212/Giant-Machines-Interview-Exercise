@@ -2,6 +2,7 @@ import React from "react";
 import { TextField } from "@mui/material";
 import "./input.css";
 
+//making my code dry and not having this code multiple times in the main file
 function input(label, name, value, handleChange, error) {
   if (name === "hours" || name === "billableRate") {
     return (
@@ -19,7 +20,7 @@ function input(label, name, value, handleChange, error) {
           value={value}
           onChange={handleChange}
           error={error}
-          helperText={error && "This input must be a Number"}
+          helperText={error && "Only numbers are allowed"}
         />
       </div>
     );
