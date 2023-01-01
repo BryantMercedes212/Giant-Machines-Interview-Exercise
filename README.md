@@ -20,7 +20,7 @@
 
    <img src="./assets/intructions1.png"  width="30%" height="10%"> <br/>
 
-3. Navigate to [seed.sql](../backend/db/seed.sql).
+3. Navigate to [seed.sql](./backend/db/seed.sql).
 
 4. Paste that path in the empty string right next to
 
