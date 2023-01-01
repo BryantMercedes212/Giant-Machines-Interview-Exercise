@@ -1,5 +1,7 @@
 ## Project Setup
 
+---
+
 ### Getting started
 
 1. Open up the repository in VSCode. Follow the instructions below to complete the setup.
