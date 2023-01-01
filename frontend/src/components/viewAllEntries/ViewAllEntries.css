@@ -148,3 +148,9 @@
   margin-top: 40px;
   font-size: 18px;
 }
+
+.pages {
+  width: 415px;
+  display: flex;
+  justify-content: end;
+}

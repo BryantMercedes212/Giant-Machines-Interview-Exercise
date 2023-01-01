@@ -2,15 +2,7 @@
 
 ### Getting started
 
-1. Navigate to the repository's directory on your command line. Then, run the following command:
-
-   ```
-   npm install
-   ```
-
-   This will install the libraries needed to run the this project.
-
-2. Open up the repository in VSCode. Follow the instructions below to complete the setup.
+1. Open up the repository in VSCode. Follow the instructions below to complete the setup.
 
 ## Instructions
 
@@ -34,9 +26,10 @@ From
 
    <img src="./assets/intructions3.png"  width="60%" height="80%"> <br/>
 
-2. Once you have cd into the backend run the following commands in this exact order
+2. Once you have cd into the backend run the following commands in this exact order:
 
 ```
+npm install
 npm run db:init
 npm run db:seed
 npm start
@@ -46,9 +39,10 @@ npm start
 
 <img src="./assets/intructions4.png"  width="100%" height="100%"> <br/>
 
-8. Once you have cd into the frontend run the command
+8. Once you have cd into the frontend run the following commands in this exact order:
 
 ```
+npm install
 npm start
 
 ```
