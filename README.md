@@ -26,11 +26,11 @@ From
 
 <img src="./assets/instructions2.png"  width="80%" height="100%"> <br/>
 
-1. Go back to the the terminal cd into the backend.
+5. Go back to the the terminal cd into the backend.
 
    <img src="./assets/instructions3.png"  width="60%" height="80%"> <br/>
 
-2. Once you have cd into the backend run the following commands in this exact order:
+6. Once you have cd into the backend run the following commands in this exact order:
 
 ```
 npm install
