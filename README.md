@@ -50,3 +50,24 @@ npm install
 npm start
 
 ```
+
+```
+Backend Dependencies:
+
+ cors,
+ dotenv,
+ express,
+ pg-promise
+
+```
+
+```
+Frontend Dependencies:
+@emotion/react,
+@emotion/styled,
+@mui/material,
+axios,
+dotenv,
+react-router-dom
+
+```
