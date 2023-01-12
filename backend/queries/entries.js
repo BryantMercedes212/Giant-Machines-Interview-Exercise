@@ -42,9 +42,25 @@ const getRowCount = async () => {
 };
 
 const createOne = async (entry) => {
+  const splitedDate = entry.date.split("-");
+  let formatedDate = ``;
+
+  if (splitedDate[1][0] === "0") {
+    formatedDate = `${splitedDate[1][1]}/`;
+  } else {
+    formatedDate = `${splitedDate[1]}/`;
+  }
+
+  if (splitedDate[2][0] === "0") {
+    formatedDate += `${splitedDate[2][1]}/`;
+  } else {
+    formatedDate += `${splitedDate[2]}/`;
+  }
+
+  formatedDate += splitedDate[0].slice(2, 4);
+  console.log(formatedDate, splitedDate, entry.date);
   try {
     let {
-      date,
       client,
       project,
       projectCode,
@@ -54,10 +70,11 @@ const createOne = async (entry) => {
       lastName,
       billableRate,
     } = entry;
+
     const newOne = await db.one(
       "INSERT INTO entries (date, client, project, projectCode, hours, billable, firstName, lastName ,billableRate) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING * ",
       [
-        date,
+        formatedDate,
         client,
         project,
         projectCode,
