@@ -157,30 +157,12 @@ function ViewAllEntries() {
     const value = evt.target.value;
     const name = evt.target.name;
     //making sure that only numbers are allowed in the hours input box
-    if (name === "hours" && !/^[1-9][\.\d]*(,\d+)?$/.test(value)) {
-      if (newEntry.hours.length === 1) {
-        setNewEntry({
-          ...newEntry,
-          [name]: "",
-        });
-        setHourError(false);
-      } else {
-        setHourError(true);
-      }
-    } else if (
-      //making sure that only numbers are allowed in the billaBleRate input box
-      name === "billableRate" &&
-      !/^[1-9][\.\d]*(,\d+)?$/.test(value)
-    ) {
-      if (newEntry.billableRate.length === 1) {
-        setNewEntry({
-          ...newEntry,
-          [name]: "",
-        });
-        setBillableRateError(false);
-      } else {
-        setBillableRateError(true);
-      }
+    if (name === "hours" && /[^\d.]/g.test(value)) {
+      setHourError(true);
+    }
+    //making sure that only numbers are allowed in the billaBleRate input box
+    else if (name === "billableRate" && /[^\d.]/g.test(value)) {
+      setBillableRateError(true);
     } else {
       //Input for hours is actually number removing my error
       if (name === "hours" && hourError) {
@@ -190,6 +172,7 @@ function ViewAllEntries() {
       if (name === "billableRate" && billableRateError) {
         setBillableRateError(false);
       }
+
       setNewEntry({
         ...newEntry,
         [name]: value,
@@ -202,7 +185,7 @@ function ViewAllEntries() {
       <div className="addNewEntryTitle"> Adding a New Entry</div>
       <div className="allInputs">
         <div className="date">
-          <input type="date" name="date" onClick={handleInputChange}></input> *
+          <input type="date" name="date" onChange={handleInputChange}></input> *
         </div>
 
         {input("Client", "client", newEntry.client, handleInputChange)}
