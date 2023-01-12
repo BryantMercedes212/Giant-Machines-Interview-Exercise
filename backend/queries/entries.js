@@ -58,7 +58,7 @@ const createOne = async (entry) => {
   }
 
   formatedDate += splitedDate[0].slice(2, 4);
-  console.log(formatedDate, splitedDate, entry.date);
+
   try {
     let {
       client,
